@@ -1,0 +1,171 @@
+{
+  "name": "AI Content Factory",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "5003f41b-0fc2-4ce7-8fcc-7237284c328f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a5bf5f6-87f4-4a1c-b15e-7b171cb08bc0",
+              "name": "topic",
+              "value": "Docker Commands Every Developer Should Know",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "29f108ca-8b7a-4a5b-b580-c2f44ee830ad",
+      "name": "Input Topic"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are a technology content creator for the Keep Learning Lab channel.\\n\\nCreate a short TikTok script.\\n\\nTopic:\\n{{ $json.topic }}\\n\\nRules:\\n- Maximum 50 words\\n- Hook in first 3 seconds\\n- Beginner-friendly\\n- Practical tips only\\n- Use simple language\\n- Focus on developers and IT professionals\\n- End with: Keep learning. Keep building. Keep moving forward.\\n- Return JSON only\\n\\nReturn JSON in this schema:\\n{\\\"title\\\":\\\"\\\",\\\"hook\\\":\\\"\\\",\\\"main_content\\\":\\\"\\\",\\\"call_to_action\\\":\\\"\\\",\\\"caption\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "93342119-7e53-4fde-8a1c-86965b2d15dd",
+      "name": "AI Content Generator"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst data = JSON.parse($input.first().json.response);\n\nreturn [\n  {\n    json: data\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "id": "720c7046-92cc-4259-981e-d7a98d87fed1",
+      "name": "Parse AI Response"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are an expert AI image prompt engineer.\\n\\nCreate one high-quality image generation prompt.\\n\\nTitle:\\n{{ $json.title }}\\n\\nHook:\\n{{ $json.hook }}\\n\\nMain Content:\\n{{ $json.main_content }}\\n\\nRequirements:\\n- Technology theme\\n- Modern style\\n- Professional lighting\\n- Highly detailed\\n- Realistic\\n- Suitable for TikTok and YouTube Shorts\\n- No text in image\\n\\nReturn JSON only:\\n{\\\"image_prompt\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        896,
+        0
+      ],
+      "id": "4743c2ae-b38b-4a67-a6f8-d0bfdd673444",
+      "name": "Generate Image Prompt"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\n// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst data = JSON.parse($input.first().json.response);\n\nreturn [\n  {\n    json: data\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1104,
+        0
+      ],
+      "id": "2967356d-13e9-4a79-aa59-abb523474e68",
+      "name": "Parse Image Prompt"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Input Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input Topic": {
+      "main": [
+        [
+          {
+            "node": "AI Content Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Content Generator": {
+      "main": [
+        [
+          {
+            "node": "Parse AI Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse AI Response": {
+      "main": [
+        [
+          {
+            "node": "Generate Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Parse Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "4319bc53-9a3e-49ca-a8d3-9accf6d3fd17",
+  "meta": {
+    "instanceId": "d279cf66a1b8415538c57c947a4495a90d3a3bd601f3637456139a359f97dacc"
+  },
+  "nodeGroups": [],
+  "id": "5GJtKXJLzfA4oWyM",
+  "tags": []
+}
