@@ -72,7 +72,7 @@
         "url": "http://host.docker.internal:11434/api/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are an expert AI image prompt engineer.\\n\\nCreate one high-quality image generation prompt.\\n\\nTitle:\\n{{ $json.title }}\\n\\nHook:\\n{{ $json.hook }}\\n\\nMain Content:\\n{{ $json.main_content }}\\n\\nRequirements:\\n- Technology theme\\n- Modern style\\n- Professional lighting\\n- Highly detailed\\n- Realistic\\n- Suitable for TikTok and YouTube Shorts\\n- No text in image\\n\\nReturn JSON only:\\n{\\\"image_prompt\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
+        "jsonBody": "{\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are an expert AI image prompt engineer.\\n\\nCreate one high-quality image generation prompt.\\n\\nYour task is to convert technical learning content into a visually meaningful scene.\\n\\nTitle:\\n{{ $json.title }}\\n\\nHook:\\n{{ $json.hook }}\\n\\nMain Content:\\n{{ $json.main_content }}\\n\\nRequirements:\\n- Create an image that directly illustrates the main concept being taught\\n- Focus on practical developer workflows, not generic technology environments\\n- Show the tools, interfaces, commands, or concepts being discussed\\n- If terminal commands are mentioned, show realistic terminal windows\\n- If coding is mentioned, show code editors or development environments\\n- If Docker is mentioned, include Docker containers, container orchestration diagrams, terminal commands, and software developer workstations\\n- If Git is mentioned, include version control workflows, branches, commits, and collaboration\\n- If cloud technologies are mentioned, include cloud architecture diagrams, deployment pipelines, and infrastructure dashboards\\n\\nVisual Style:\\n- photorealistic\\n- modern developer workspace\\n- realistic computer screens\\n- professional lighting\\n- highly detailed\\n- cinematic composition\\n- educational and practical\\n\\nAvoid:\\n- generic technology labs\\n- server rooms without context\\n- control centers\\n- futuristic cityscapes\\n- fantasy elements\\n- abstract technology imagery\\n- text overlays\\n- watermarks\\n\\nReturn JSON only:\\n{\\\"image_prompt\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -96,6 +96,33 @@
       ],
       "id": "2967356d-13e9-4a79-aa59-abb523474e68",
       "name": "Parse Image Prompt"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8188/prompt",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"prompt\": {\n    \"1\": {\n      \"inputs\": {\n        \"ckpt_name\": \"dreamshaper_8.safetensors\"\n      },\n      \"class_type\": \"CheckpointLoaderSimple\"\n    },\n    \"2\": {\n      \"inputs\": {\n        \"text\": \"{{ $json.image_prompt }}\",\n        \"clip\": [\n          \"1\",\n          1\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    },\n    \"3\": {\n      \"inputs\": {\n        \"width\": 512,\n        \"height\": 512,\n        \"batch_size\": 1\n      },\n      \"class_type\": \"EmptyLatentImage\"\n    },\n    \"4\": {\n      \"inputs\": {\n        \"seed\": 971149146034649,\n        \"steps\": 20,\n        \"cfg\": 8,\n        \"sampler_name\": \"euler\",\n        \"scheduler\": \"simple\",\n        \"denoise\": 1,\n        \"model\": [\n          \"1\",\n          0\n        ],\n        \"positive\": [\n          \"2\",\n          0\n        ],\n        \"negative\": [\n          \"7\",\n          0\n        ],\n        \"latent_image\": [\n          \"3\",\n          0\n        ]\n      },\n      \"class_type\": \"KSampler\"\n    },\n    \"5\": {\n      \"inputs\": {\n        \"samples\": [\n          \"4\",\n          0\n        ],\n        \"vae\": [\n          \"1\",\n          2\n        ]\n      },\n      \"class_type\": \"VAEDecode\"\n    },\n    \"6\": {\n      \"inputs\": {\n        \"filename_prefix\": \"n8n-generated\",\n        \"images\": [\n          \"5\",\n          0\n        ]\n      },\n      \"class_type\": \"SaveImage\"\n    },\n    \"7\": {\n      \"inputs\": {\n        \"text\": \"low quality, blurry, bad anatomy, extra fingers, extra limbs, deformed, worst quality, text, watermark\",\n        \"clip\": [\n          \"1\",\n          1\n        ]\n      },\n      \"class_type\": \"CLIPTextEncode\"\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1328,
+        0
+      ],
+      "id": "0a0a0793-cce1-4504-8fc7-54cb52e6477b",
+      "name": "Generate Image with ComfyUI"
     }
   ],
   "pinData": {},
@@ -154,6 +181,17 @@
           }
         ]
       ]
+    },
+    "Parse Image Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate Image with ComfyUI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -161,7 +199,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "4319bc53-9a3e-49ca-a8d3-9accf6d3fd17",
+  "versionId": "a25ce37f-2bfb-4bb4-b891-621fa8b6f579",
   "meta": {
     "instanceId": "d279cf66a1b8415538c57c947a4495a90d3a3bd601f3637456139a359f97dacc"
   },

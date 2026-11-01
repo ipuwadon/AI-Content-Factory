@@ -53,10 +53,10 @@ TikTok Publishing
 - ✅ DreamShaper image model setup
 - ✅ First AI-generated image
 - ✅ ComfyUI API workflow export
+- ✅ n8n integration ComfyUI API
 
 ### In Progress
 
-- ⏳ n8n → ComfyUI API integration
 - ⏳ Image asset management
 - ⏳ OneDrive integration
 
