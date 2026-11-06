@@ -29,7 +29,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        224,
+        192,
         0
       ],
       "id": "29f108ca-8b7a-4a5b-b580-c2f44ee830ad",
@@ -47,7 +47,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        448,
+        384,
         0
       ],
       "id": "93342119-7e53-4fde-8a1c-86965b2d15dd",
@@ -60,7 +60,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        672,
+        576,
         0
       ],
       "id": "720c7046-92cc-4259-981e-d7a98d87fed1",
@@ -78,7 +78,7 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        896,
+        768,
         0
       ],
       "id": "4743c2ae-b38b-4a67-a6f8-d0bfdd673444",
@@ -91,7 +91,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1104,
+        960,
         0
       ],
       "id": "2967356d-13e9-4a79-aa59-abb523474e68",
@@ -118,11 +118,38 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        1328,
+        1152,
         0
       ],
       "id": "0a0a0793-cce1-4504-8fc7-54cb52e6477b",
       "name": "Generate Image with ComfyUI"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8000/generate-voice",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n{\n  \"text\": `${$('Parse AI Response').item.json.hook}\n\n${$('Parse AI Response').item.json.main_content}\n\n${$('Parse AI Response').item.json.call_to_action}`,\n\n  \"voice\": \"en-US-AriaNeural\",\n\n  \"filename\": \"voice.mp3\"\n}\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "1c1ad903-1053-4849-94c6-003384a5e9ac",
+      "name": "Generate Voice"
     }
   ],
   "pinData": {},
@@ -192,6 +219,17 @@
           }
         ]
       ]
+    },
+    "Generate Image with ComfyUI": {
+      "main": [
+        [
+          {
+            "node": "Generate Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -199,7 +237,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "a25ce37f-2bfb-4bb4-b891-621fa8b6f579",
+  "versionId": "f37fc7de-372c-4bfb-8247-d075321e53ea",
   "meta": {
     "instanceId": "d279cf66a1b8415538c57c947a4495a90d3a3bd601f3637456139a359f97dacc"
   },
