@@ -54,6 +54,7 @@ TikTok Publishing
 - ✅ First AI-generated image
 - ✅ ComfyUI API workflow export
 - ✅ n8n integration ComfyUI API
+- ✅ Text-to-Speech generation
 
 ### In Progress
 
@@ -62,7 +63,6 @@ TikTok Publishing
 
 ### Planned
 
-- 📌 Text-to-Speech generation
 - 📌 Video generation with FFmpeg
 - 📌 Automatic publishing workflow
 - 📌 TikTok API integration
