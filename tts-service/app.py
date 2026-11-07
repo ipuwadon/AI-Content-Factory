@@ -41,6 +41,6 @@ async def generate_voice(request: VoiceRequest):
 
     return {
         "status": "success",
-        "file": str(output_file),
+        "file": str(output_file.resolve()),
         "voice": request.voice
     }

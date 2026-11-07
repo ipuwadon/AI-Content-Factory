@@ -6,8 +6,8 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        0,
-        0
+        -256,
+        -48
       ],
       "id": "5003f41b-0fc2-4ce7-8fcc-7237284c328f",
       "name": "When clicking ‘Execute workflow’"
@@ -29,8 +29,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.5,
       "position": [
-        192,
-        0
+        -80,
+        -48
       ],
       "id": "29f108ca-8b7a-4a5b-b580-c2f44ee830ad",
       "name": "Input Topic"
@@ -41,14 +41,14 @@
         "url": "http://host.docker.internal:11434/api/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are a technology content creator for the Keep Learning Lab channel.\\n\\nCreate a short TikTok script.\\n\\nTopic:\\n{{ $json.topic }}\\n\\nRules:\\n- Maximum 50 words\\n- Hook in first 3 seconds\\n- Beginner-friendly\\n- Practical tips only\\n- Use simple language\\n- Focus on developers and IT professionals\\n- End with: Keep learning. Keep building. Keep moving forward.\\n- Return JSON only\\n\\nReturn JSON in this schema:\\n{\\\"title\\\":\\\"\\\",\\\"hook\\\":\\\"\\\",\\\"main_content\\\":\\\"\\\",\\\"call_to_action\\\":\\\"\\\",\\\"caption\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
+        "jsonBody": "={\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are a technology content creator for the Keep Learning Lab channel.\\n\\nCreate a short TikTok script.\\n\\nTopic:\\n{{ $json.topic }}\\n\\nRules:\\n- Maximum 100 words\\n- Hook in first 3 seconds\\n- Beginner-friendly\\n- Practical tips only\\n- Use simple language\\n- Focus on developers and IT professionals\\n- Main content must be suitable for voice-over narration\\n- Use complete spoken sentences\\n- Do not use emojis\\n- Do not use markdown\\n- Do not use bullet points\\n- Do not use code blocks\\n- Do not use special symbols\\n- End with: Keep learning. Keep building. Keep moving forward.\\n- Return JSON only\\n\\nReturn JSON in this schema:\\n{\\\"title\\\":\\\"\\\",\\\"hook\\\":\\\"\\\",\\\"main_content\\\":\\\"\\\",\\\"call_to_action\\\":\\\"\\\",\\\"caption\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        384,
-        0
+        96,
+        144
       ],
       "id": "93342119-7e53-4fde-8a1c-86965b2d15dd",
       "name": "AI Content Generator"
@@ -60,8 +60,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        576,
-        0
+        288,
+        144
       ],
       "id": "720c7046-92cc-4259-981e-d7a98d87fed1",
       "name": "Parse AI Response"
@@ -72,14 +72,14 @@
         "url": "http://host.docker.internal:11434/api/generate",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "{\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are an expert AI image prompt engineer.\\n\\nCreate one high-quality image generation prompt.\\n\\nYour task is to convert technical learning content into a visually meaningful scene.\\n\\nTitle:\\n{{ $json.title }}\\n\\nHook:\\n{{ $json.hook }}\\n\\nMain Content:\\n{{ $json.main_content }}\\n\\nRequirements:\\n- Create an image that directly illustrates the main concept being taught\\n- Focus on practical developer workflows, not generic technology environments\\n- Show the tools, interfaces, commands, or concepts being discussed\\n- If terminal commands are mentioned, show realistic terminal windows\\n- If coding is mentioned, show code editors or development environments\\n- If Docker is mentioned, include Docker containers, container orchestration diagrams, terminal commands, and software developer workstations\\n- If Git is mentioned, include version control workflows, branches, commits, and collaboration\\n- If cloud technologies are mentioned, include cloud architecture diagrams, deployment pipelines, and infrastructure dashboards\\n\\nVisual Style:\\n- photorealistic\\n- modern developer workspace\\n- realistic computer screens\\n- professional lighting\\n- highly detailed\\n- cinematic composition\\n- educational and practical\\n\\nAvoid:\\n- generic technology labs\\n- server rooms without context\\n- control centers\\n- futuristic cityscapes\\n- fantasy elements\\n- abstract technology imagery\\n- text overlays\\n- watermarks\\n\\nReturn JSON only:\\n{\\\"image_prompt\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
+        "jsonBody": "={\n  \"model\": \"qwen2.5:7b\",\n  \"prompt\": \"You are an expert AI image prompt engineer.\\n\\nCreate one high-quality image generation prompt.\\n\\nYour task is to convert technical learning content into a visually meaningful scene.\\n\\nTitle:\\n{{ $('Parse AI Response').item.json.title }}\\n\\nHook:\\n{{ $('Parse AI Response').item.json.hook }}\\n\\nMain Content:\\n{{ $('Parse AI Response').item.json.main_content }}\\n\\nRequirements:\\n- Create an image that directly illustrates the main concept being taught\\n- Focus on practical developer workflows, not generic technology environments\\n- Show the tools, interfaces, commands, or concepts being discussed\\n- If terminal commands are mentioned, show realistic terminal windows\\n- If coding is mentioned, show code editors or development environments\\n- If Docker is mentioned, include Docker containers, container orchestration diagrams, terminal commands, and software developer workstations\\n- If Git is mentioned, include version control workflows, branches, commits, and collaboration\\n- If cloud technologies are mentioned, include cloud architecture diagrams, deployment pipelines, and infrastructure dashboards\\n\\nVisual Style:\\n- photorealistic\\n- modern developer workspace\\n- realistic computer screens\\n- professional lighting\\n- highly detailed\\n- cinematic composition\\n- educational and practical\\n\\nAvoid:\\n- generic technology labs\\n- server rooms without context\\n- control centers\\n- futuristic cityscapes\\n- fantasy elements\\n- abstract technology imagery\\n- text overlays\\n- watermarks\\n\\nReturn JSON only:\\n{\\\"image_prompt\\\":\\\"\\\"}\",\n  \"stream\": false\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        768,
-        0
+        560,
+        112
       ],
       "id": "4743c2ae-b38b-4a67-a6f8-d0bfdd673444",
       "name": "Generate Image Prompt"
@@ -91,8 +91,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        960,
-        0
+        736,
+        112
       ],
       "id": "2967356d-13e9-4a79-aa59-abb523474e68",
       "name": "Parse Image Prompt"
@@ -118,8 +118,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        1152,
-        0
+        912,
+        112
       ],
       "id": "0a0a0793-cce1-4504-8fc7-54cb52e6477b",
       "name": "Generate Image with ComfyUI"
@@ -145,11 +145,146 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.5,
       "position": [
-        1344,
-        0
+        752,
+        -112
       ],
       "id": "1c1ad903-1053-4849-94c6-003384a5e9ac",
       "name": "Generate Voice"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"qwen2.5:7b\",\n  \"stream\": false,\n  \"prompt\": \"You are an expert short-form video editor.\\n\\nCreate overlay metadata for a short educational video.\\n\\nTitle:\\n{{ $json.title }}\\n\\nHook:\\n{{ $json.hook }}\\n\\nMain Content:\\n{{ $json.main_content }}\\n\\nCall To Action:\\n{{ $json.call_to_action }}\\n\\nRequirements:\\n- Create 4 to 6 overlay scenes\\n- Duration should match a 20-30 second short video\\n- Keep overlay text short and readable\\n- Maximum 2 lines per overlay\\n- Focus on key learning points\\n\\nReturn JSON only:\\n{\\n  \\\"overlays\\\": [\\n    {\\n      \\\"start\\\": 0,\\n      \\\"end\\\": 3,\\n      \\\"text\\\": \\\"\\\"\\n    }\\n  ]\\n}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        288,
+        -160
+      ],
+      "id": "3ee739ae-f075-4edb-885d-fe53229ec4a8",
+      "name": "Generate Overlay Metadata"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nconst data = JSON.parse($input.first().json.response);\n\nreturn [\n  {\n    json: data\n  }\n]"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        480,
+        -160
+      ],
+      "id": "4638fc1a-9111-45b2-afbc-4985303637d3",
+      "name": "Parse Overlay Metadata"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:8001/generate-video",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\n{\n  \"image_path\": $('Parse Generated Image Info').item.json.image_path,\n  \"voice_path\":  $('Generate Voice').item.json.file,\n  \"output_file\": `${$('Parse AI Response').item.json.title\n    .replace(/[^a-zA-Z0-9 ]/g, '')\n    .trim()\n    .replace(/\\s+/g, '-')}.mp4`,\n\n  \"overlays\": $('Parse Overlay Metadata').item.json.overlays\n}\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        960,
+        -112
+      ],
+      "id": "b6ea61a3-40d4-4870-bee1-d05bc953e589",
+      "name": "Generate Video"
+    },
+    {
+      "parameters": {
+        "url": "={{\n`http://host.docker.internal:8188/history/${\n$('Generate Image with ComfyUI').item.json.prompt_id\n}`\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1104,
+        112
+      ],
+      "id": "fe86ff58-8453-499c-ac07-abdf925d3505",
+      "name": "Get Generated Image Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const history = Object.values(\n  $json.history_data\n)[0];\n\nlet image = null;\n\nfor (const output of Object.values(history.outputs)) {\n  if (output.images && output.images.length > 0) {\n    image = output.images[0];\n    break;\n  }\n}\n\nif (!image) {\n  throw new Error(\"No generated image found\");\n}\n\nreturn [\n  {\n    json: {\n      image_path: `C:/AI/ComfyUI_windows_portable_nvidia_cu126/ComfyUI_windows_portable/ComfyUI/output/${image.filename}`,\n      filename: image.filename,\n      subfolder: image.subfolder,\n      type: image.type\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1680,
+        96
+      ],
+      "id": "ad8bb911-13bf-4f0b-a1fc-f3954e7983d5",
+      "name": "Parse Generated Image Info"
+    },
+    {
+      "parameters": {
+        "jsCode": "const keys = Object.keys($json);\n\nreturn [\n  {\n    json: {\n      has_history: keys.length > 0,\n      history_data: $json\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1280,
+        112
+      ],
+      "id": "8fd4c648-a800-46df-ba09-8c302d130161",
+      "name": "Check History Exists"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 4
+          },
+          "conditions": [
+            {
+              "id": "1d55f09a-d90c-4d1e-bba0-c55f2427e05c",
+              "leftValue": "={{ $json.has_history }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        1472,
+        112
+      ],
+      "id": "54a4c21a-4261-4008-9255-7b595f9e998a",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1328,
+        368
+      ],
+      "id": "04921bdf-ea16-4572-9955-cfbf905f124e",
+      "name": "Wait",
+      "webhookId": "2f9ad0b5-634b-47a6-9569-77ec784a00ed"
     }
   ],
   "pinData": {},
@@ -191,7 +326,7 @@
       "main": [
         [
           {
-            "node": "Generate Image Prompt",
+            "node": "Generate Overlay Metadata",
             "type": "main",
             "index": 0
           }
@@ -224,7 +359,102 @@
       "main": [
         [
           {
+            "node": "Get Generated Image Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Overlay Metadata": {
+      "main": [
+        [
+          {
+            "node": "Parse Overlay Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Overlay Metadata": {
+      "main": [
+        [
+          {
+            "node": "Generate Image Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Voice": {
+      "main": [
+        [
+          {
+            "node": "Generate Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Generated Image Info": {
+      "main": [
+        [
+          {
+            "node": "Check History Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Generated Image Info": {
+      "main": [
+        [
+          {
             "node": "Generate Voice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check History Exists": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Parse Generated Image Info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Generated Image Info",
             "type": "main",
             "index": 0
           }
@@ -237,7 +467,7 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "f37fc7de-372c-4bfb-8247-d075321e53ea",
+  "versionId": "bb9a6da3-8e12-4288-9862-b2fcbc024b51",
   "meta": {
     "instanceId": "d279cf66a1b8415538c57c947a4495a90d3a3bd601f3637456139a359f97dacc"
   },
