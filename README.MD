@@ -55,15 +55,12 @@ TikTok Publishing
 - ✅ ComfyUI API workflow export
 - ✅ n8n integration ComfyUI API
 - ✅ Text-to-Speech generation
-
-### In Progress
-
-- ⏳ Image asset management
-- ⏳ OneDrive integration
+- ✅ Video generation with FFmpeg
+- ✅ End-to-End workflow
 
 ### Planned
 
-- 📌 Video generation with FFmpeg
+- 📌 Enhance Text Overlay to be compatible with video
 - 📌 Automatic publishing workflow
 - 📌 TikTok API integration
 
